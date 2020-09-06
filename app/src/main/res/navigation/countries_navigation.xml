@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/countries_nav"
+    app:startDestination="@id/all_countries_fragment">
+
+    <fragment
+        android:id="@+id/all_countries_fragment"
+        android:name="com.sela.countries.ui.allcountries.AllCountriesFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_allcountries">
+
+        <action
+            android:id="@+id/action_all_countries_fragment_to_country_fragment"
+            app:destination="@id/country_fragment"/>
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/country_fragment"
+        android:name="com.sela.countries.ui.country.CountryFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_country">
+
+
+    </fragment>
+
+
+</navigation>
