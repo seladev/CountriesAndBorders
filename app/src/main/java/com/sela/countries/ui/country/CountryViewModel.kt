@@ -24,12 +24,12 @@ class CountryViewModel(private val country: Country, application: Application) :
     val countryName : LiveData<String>
         get() = _countryName
 
-    private var _loading = MutableLiveData<Boolean>()
-    val loading = MediatorLiveData<Boolean>()
-
     private var _error = MutableLiveData<Pair<Boolean, String>>()
     val error : LiveData<Pair<Boolean, String>>
         get() = _error
+
+    private var _loading = MutableLiveData<Boolean>()
+    val loading = _loading
 
 
     var borderList = Transformations.map(countryRepository.borders) {
@@ -39,32 +39,19 @@ class CountryViewModel(private val country: Country, application: Application) :
 
 
     init {
-        logDebug("$country" )
+        logDebug("$country")
         _countryName.value = country.name
-        createLoadingLiveData()
+        _loading.value = false
         loadBorders()
-    }
-
-    private fun createLoadingLiveData() {
-        loading.addSource(_loading) {
-            loading.value = it
-        }
-
-        loading.addSource(borderList) {
-            loading.value = it.isEmpty()
-        }
     }
 
     private fun loadBorders() {
         viewModelScope.launch {
             try {
-                _loading.value = true
                 countryRepository.getCountriesByBorders(country.borders)
             } catch (e: IOException) {
                 logError("Error while refreshCountries ${e.localizedMessage}")
                 e.printStackTrace()
-            } finally {
-                _loading.value = false
             }
         }
     }
